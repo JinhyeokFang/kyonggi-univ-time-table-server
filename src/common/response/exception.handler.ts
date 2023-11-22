@@ -3,6 +3,8 @@ import {
   Catch,
   ExceptionFilter,
   HttpException,
+  HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import { FailedResponse } from './response';
 import { Exception, ExceptionCode } from './exception';
@@ -14,7 +16,10 @@ export class ExceptionHandler implements ExceptionFilter {
     const response = context.getResponse();
     const statusCode = exception.getStatus();
     exception.code = exception.code || ExceptionCode.UNDEFINED;
-    console.dir(exception);
+    if (exception.getStatus() === HttpStatus.INTERNAL_SERVER_ERROR) {
+      Logger.error(`[${exception}]
+${exception.stack || ''}`);
+    }
 
     response.status(statusCode).json(FailedResponse(exception));
   }

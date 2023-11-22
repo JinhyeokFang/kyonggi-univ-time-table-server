@@ -4,7 +4,12 @@ import { ConfigService } from '@nestjs/config';
 
 import * as compression from 'compression';
 import helmet from 'helmet';
-import { BadRequestException, HttpStatus, Logger, ValidationPipe } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpStatus,
+  Logger,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ExceptionHandler } from './common/response/exception.handler';
 import { ValidationError } from 'class-validator';
 import { Exception, ExceptionCode } from './common/response/exception';
@@ -15,6 +20,11 @@ async function bootstrap() {
   const port = parseInt(configService.get('PORT'), 10);
   const hostname = configService.get('HOSTNAME');
   Logger.debug(`Server will serviced at ${port} port`);
+  app.enableCors({
+    origin: ['*'],
+    exposedHeaders: ['Authorization', 'authorization'],
+  });
+  app.use(helmet());
   app.use(compression());
   app.useGlobalPipes(
     new ValidationPipe({
