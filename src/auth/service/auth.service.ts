@@ -5,14 +5,14 @@ import { Repository } from 'typeorm';
 import * as AuthDto from './auth.dto';
 import { Exception, ExceptionCode } from 'src/common/response/exception';
 import { compare, hash } from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
+import { JwtProvider } from 'src/common/jwt/jwt.provider';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    private readonly jwtService: JwtService,
+    private readonly jwtProvider: JwtProvider,
   ) {}
 
   public async login(dto: AuthDto.LoginDto) {
@@ -40,15 +40,7 @@ export class AuthService {
       );
     }
 
-    return this.createToken(user.id);
-  }
-
-  private async createToken(userId: string): Promise<string> {
-    const token = await this.jwtService.signAsync({
-      userId,
-    });
-
-    return token;
+    return this.jwtProvider.createToken(user.id);
   }
 
   public async register(dto: AuthDto.RegisterDto) {

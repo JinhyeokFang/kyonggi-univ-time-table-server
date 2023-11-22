@@ -1,8 +1,5 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-
-interface Token {
-  userId: string;
-}
+import { Token } from 'src/common/jwt/token';
 
 export const UserId = createParamDecorator(
   (_, context: ExecutionContext): string => {

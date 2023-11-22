@@ -1,4 +1,11 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import { AuthService } from '../service/auth.service';
 import * as AuthBody from './auth.body';
 import { ResponseBody, SuccessResponse } from 'src/common/response/response';
