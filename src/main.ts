@@ -33,6 +33,7 @@ async function bootstrap() {
     }),
   );
   app.useGlobalFilters(new ExceptionHandler());
+  app.enableCors();
   await app.listen(port);
   Logger.debug(`Server started`);
 }
