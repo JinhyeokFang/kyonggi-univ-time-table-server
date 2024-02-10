@@ -23,7 +23,6 @@ async function bootstrap() {
     origin: ['*'],
     exposedHeaders: ['Authorization', 'authorization'],
   });
-  app.use(helmet());
   app.use(compression());
   app.useGlobalPipes(
     new ValidationPipe({
