@@ -12,7 +12,7 @@ export class LectureService {
   ) {}
 
   async getLectures(dto: LectureServiceDTO.getLecturesDTO) {
-    const lectures = this.lectureRepository.find({
+    const lectures = await this.lectureRepository.find({
       where: {
         name: dto.name,
         professor: dto.professor,
@@ -26,6 +26,7 @@ export class LectureService {
         credit: dto.credit,
         category: dto.category,
         group: dto.group,
+        major: dto.major,
       },
     });
     return lectures;

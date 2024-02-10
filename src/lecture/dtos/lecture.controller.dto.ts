@@ -11,4 +11,5 @@ export class getLecturesDTO {
   credit?: number;
   category?: string;
   group?: string;
+  major?: string;
 }

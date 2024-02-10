@@ -43,8 +43,13 @@ export class Lecture {
   credit!: number;
 
   @Column()
+  @IsString()
   category!: string;
 
   @Column()
+  @IsString()
   group!: string;
+
+  @Column()
+  major!: string;
 }
