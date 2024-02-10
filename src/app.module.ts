@@ -5,7 +5,7 @@ import { typeORMConfig } from './common/config/typeorm.config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-import { AuthModule } from './auth/auth.module';
+import { LectureModule } from './lecture/lecture.module';
 
 @Module({
   imports: [
@@ -29,8 +29,7 @@ import { AuthModule } from './auth/auth.module';
       rootPath: join(__dirname, '../..', 'static'),
       serveRoot: '/static',
     }),
-
-    AuthModule,
+    LectureModule,
   ],
   controllers: [],
   providers: [],
