@@ -19,10 +19,6 @@ async function bootstrap() {
   const configService: ConfigService = app.get(ConfigService);
   const port = parseInt(configService.get('PORT'), 10);
   Logger.debug(`Server will serviced at ${port} port`);
-  app.enableCors({
-    origin: ['*'],
-    exposedHeaders: ['Authorization', 'authorization'],
-  });
   app.use(compression());
   app.useGlobalPipes(
     new ValidationPipe({
