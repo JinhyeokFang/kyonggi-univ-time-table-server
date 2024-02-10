@@ -1,6 +1,5 @@
-import { Body, Controller, Get } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { LectureService } from './lecture.service';
-import * as LectureControllerDTO from './dtos/lecture.controller.dto';
 import { ResponseBody, SuccessResponse } from '../common/response/response';
 
 @Controller('lecture')
@@ -8,10 +7,8 @@ export class LectureController {
   constructor(private readonly lectureService: LectureService) {}
 
   @Get()
-  async getLectures(
-    @Body() body: LectureControllerDTO.getLecturesDTO,
-  ): Promise<ResponseBody> {
-    const lectures = this.lectureService.getLectures(body);
+  async getLectures(): Promise<ResponseBody> {
+    const lectures = await this.lectureService.getLectures({});
     return SuccessResponse({
       lectures,
     });
