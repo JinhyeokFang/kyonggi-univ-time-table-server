@@ -18,7 +18,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService: ConfigService = app.get(ConfigService);
   const port = parseInt(configService.get('PORT'), 10);
-  const hostname = configService.get('HOSTNAME');
   Logger.debug(`Server will serviced at ${port} port`);
   app.enableCors({
     origin: ['*'],
@@ -39,7 +38,7 @@ async function bootstrap() {
     }),
   );
   app.useGlobalFilters(new ExceptionHandler());
-  await app.listen(port, hostname);
+  await app.listen(port);
   Logger.debug(`Server started`);
 }
 bootstrap();
