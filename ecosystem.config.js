@@ -8,7 +8,8 @@ module.exports = {
         "exec_mode": "cluster",
         "wait_ready": true,
         "listen_timeout": 50000,
-        "kill_timeout": 5000
+        "kill_timeout": 5000,
+        "max_memory_restart": "300M"
     }
   ]
 };
