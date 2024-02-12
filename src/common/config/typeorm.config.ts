@@ -12,4 +12,5 @@ export const typeORMConfig = (
   database: configService.get<string>('DB_NAME'),
   entities: [__dirname + '/../../**/*.entity.{js,ts}'],
   synchronize: true,
+  logging: true,
 });

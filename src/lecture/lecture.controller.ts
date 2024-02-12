@@ -31,4 +31,32 @@ export class LectureController {
       lectures,
     });
   }
+
+  @Get('/search')
+  async searchLectures(
+    @Query('name') name?: string,
+    @Query('professor') professor?: string,
+    @Query('major') major?: string,
+    @Query('campusName') campusName?: string,
+    @Query('category') category?: string,
+    @Query('group') group?: string,
+    @Query('lectureNumber') lectureNumber?: string,
+    @Query('grade') grade?: string,
+    @Query('query') query?: string,
+  ): Promise<ResponseBody> {
+    const lectures = await this.lectureService.getLecturesWithQuery({
+      name,
+      professor,
+      major,
+      campusName,
+      category,
+      group,
+      lectureNumber: lectureNumber ? parseInt(lectureNumber) : undefined,
+      grade: grade ? parseInt(grade) : undefined,
+      query,
+    });
+    return SuccessResponse({
+      lectures,
+    });
+  }
 }
