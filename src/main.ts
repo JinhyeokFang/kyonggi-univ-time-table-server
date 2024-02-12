@@ -45,6 +45,9 @@ async function bootstrap() {
     isDisableKeepAlive = true;
     app.close();
   });
+  if (process.send) {
+    process.send('ready');
+  }
   await app.listen(port);
   Logger.debug(`Server started`);
 }
