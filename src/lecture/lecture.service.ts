@@ -49,13 +49,29 @@ export class LectureService {
       group: dto.group ? Like(`%${dto.group}%`) : undefined,
       major: dto.major ? Like(`%${dto.major}%`) : undefined,
     };
+    const condition = [
+      {
+        ...commonCondition,
+        name: dto.name ? undefined : Like(`%${dto.query ? dto.query : ''}%`),
+      },
+      {
+        ...commonCondition,
+        professor: dto.professor
+          ? undefined
+          : Like(`%${dto.query ? dto.query : ''}%`),
+      },
+      {
+        ...commonCondition,
+        group: dto.group ? undefined : Like(`%${dto.query ? dto.query : ''}%`),
+      },
+      {
+        ...commonCondition,
+        major: dto.major ? undefined : Like(`%${dto.query ? dto.query : ''}%`),
+      },
+    ];
+    console.log(condition);
     const lectures = await this.lectureRepository.find({
-      where: [
-        { ...commonCondition, name: Like(`%${dto.query}%`) },
-        { ...commonCondition, professor: Like(`%${dto.query}%`) },
-        { ...commonCondition, group: Like(`%${dto.query}%`) },
-        { ...commonCondition, major: Like(`%${dto.query}%`) },
-      ],
+      where: condition,
       take: 100,
     });
     return lectures;
