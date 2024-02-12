@@ -19,6 +19,13 @@ async function bootstrap() {
   const configService: ConfigService = app.get(ConfigService);
   const port = parseInt(configService.get('PORT'), 10);
   Logger.debug(`Server will serviced at ${port} port`);
+  let isDisableKeepAlive = false;
+  app.use((req, res, next) => {
+    if (isDisableKeepAlive) {
+      res.set("Connection", "close");
+    }
+    next();
+  })
   app.use(compression());
   app.useGlobalPipes(
     new ValidationPipe({
@@ -34,6 +41,10 @@ async function bootstrap() {
   );
   app.useGlobalFilters(new ExceptionHandler());
   app.enableCors();
+  process.on("SIGINT", () => {
+    isDisableKeepAlive = true;
+    app.close();
+  });
   await app.listen(port);
   Logger.debug(`Server started`);
 }
