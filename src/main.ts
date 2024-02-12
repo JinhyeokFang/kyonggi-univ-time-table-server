@@ -41,9 +41,10 @@ async function bootstrap() {
   );
   app.useGlobalFilters(new ExceptionHandler());
   app.enableCors();
-  process.on("SIGINT", () => {
+  process.on("SIGINT", async () => {
     isDisableKeepAlive = true;
-    app.close();
+    await app.close();
+    process.exit(0);
   });
   if (process.send) {
     process.send('ready');
