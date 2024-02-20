@@ -39,7 +39,7 @@ export class LectureService {
       professor: dto.professor ? Like(`%${dto.professor}%`) : undefined,
       campusName: dto.campusName,
       lectureNumber: dto.lectureNumber,
-      grade: In([dto.grade, 0]),
+      grade: dto.grade,
       room: dto.room,
       time: dto.time,
       year: dto.year,
