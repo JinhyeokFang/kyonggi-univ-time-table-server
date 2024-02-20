@@ -6,6 +6,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { LectureModule } from './lecture/lecture.module';
+import { HelpModule } from './help/help.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { LectureModule } from './lecture/lecture.module';
       serveRoot: '/static',
     }),
     LectureModule,
+    HelpModule,
   ],
   controllers: [],
   providers: [],
