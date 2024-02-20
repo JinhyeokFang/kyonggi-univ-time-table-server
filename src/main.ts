@@ -22,10 +22,10 @@ async function bootstrap() {
   let isDisableKeepAlive = false;
   app.use((req, res, next) => {
     if (isDisableKeepAlive) {
-      res.set("Connection", "close");
+      res.set('Connection', 'close');
     }
     next();
-  })
+  });
   app.use(compression());
   app.useGlobalPipes(
     new ValidationPipe({
@@ -41,7 +41,7 @@ async function bootstrap() {
   );
   app.useGlobalFilters(new ExceptionHandler());
   app.enableCors();
-  process.on("SIGINT", async () => {
+  process.on('SIGINT', async () => {
     isDisableKeepAlive = true;
     await app.close();
     process.exit(0);

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Lecture } from './entity/lecture.entity';
-import { Like, Repository } from 'typeorm';
+import { In, Like, Repository } from 'typeorm';
 import * as LectureServiceDTO from './dtos/lecture.service.dto';
 
 @Injectable()
@@ -39,7 +39,7 @@ export class LectureService {
       professor: dto.professor ? Like(`%${dto.professor}%`) : undefined,
       campusName: dto.campusName,
       lectureNumber: dto.lectureNumber,
-      grade: dto.grade,
+      grade: In([dto.grade, 0]),
       room: dto.room,
       time: dto.time,
       year: dto.year,
@@ -52,21 +52,27 @@ export class LectureService {
     const condition = [
       {
         ...commonCondition,
-        name: dto.name ? undefined : Like(`%${dto.query ? dto.query : ''}%`),
-      },
-      {
-        ...commonCondition,
-        professor: dto.professor
-          ? undefined
+        name: dto.name
+          ? commonCondition.name
           : Like(`%${dto.query ? dto.query : ''}%`),
       },
       {
         ...commonCondition,
-        group: dto.group ? undefined : Like(`%${dto.query ? dto.query : ''}%`),
+        professor: dto.professor
+          ? commonCondition.professor
+          : Like(`%${dto.query ? dto.query : ''}%`),
       },
       {
         ...commonCondition,
-        major: dto.major ? undefined : Like(`%${dto.query ? dto.query : ''}%`),
+        group: dto.group
+          ? commonCondition.group
+          : Like(`%${dto.query ? dto.query : ''}%`),
+      },
+      {
+        ...commonCondition,
+        major: dto.major
+          ? commonCondition.major
+          : Like(`%${dto.query ? dto.query : ''}%`),
       },
     ];
     console.log(condition);
