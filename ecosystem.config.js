@@ -2,8 +2,7 @@ module.exports = {
   apps : [
     {
         "name": "kyonggi-time-table",
-        "script": "npm",
-        "args" : "start",
+        "script": "./dist/main.js",
         "instances": 0,
         "exec_mode": "cluster",
         "wait_ready": true,
