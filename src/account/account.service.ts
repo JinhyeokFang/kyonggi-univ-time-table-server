@@ -25,7 +25,7 @@ export class AccountService {
       expiresIn: '14d',
     });
     const tempToken = TempToken.of(randomUUID(), refreshToken, new Date());
-    this.tempTokenRepository.save(tempToken);
+    await this.tempTokenRepository.save(tempToken);
     return tempToken;
   }
 
@@ -47,6 +47,10 @@ export class AccountService {
   }
 
   async getAccessToken(refreshToken: string) {
+    if (refreshToken == '') {
+      throw new HttpException({}, HttpStatus.UNAUTHORIZED);
+    }
+
     const isValid = await this.jwtService.verifyAsync(refreshToken);
     if (isValid) {
       const accessToken = await this.jwtService.signAsync(
