@@ -44,7 +44,7 @@ async function bootstrap() {
   app.useGlobalFilters(new ExceptionHandler());
   app.enableCors({
     credentials: true,
-    origin: '*',
+    origin: ['http://localhost:3000', 'https://kyonggiti.me'],
   });
   process.on('SIGINT', async () => {
     isDisableKeepAlive = true;

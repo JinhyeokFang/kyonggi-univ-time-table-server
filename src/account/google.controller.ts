@@ -20,6 +20,7 @@ export class GoogleController {
       httpOnly: true,
       secret: true,
       expires: new Date(Date.now() + 14 * 24 * 3600000),
+      sameSite: 'None',
     });
     response.redirect('https://kyonggiti.me');
   }
