@@ -7,6 +7,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { LectureModule } from './lecture/lecture.module';
 import { HelpModule } from './help/help.module';
+import { AccountModule } from './account/account.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -32,6 +34,7 @@ import { HelpModule } from './help/help.module';
     }),
     LectureModule,
     HelpModule,
+    AccountModule,
   ],
   controllers: [],
   providers: [],

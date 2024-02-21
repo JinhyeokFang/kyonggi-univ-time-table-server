@@ -13,6 +13,7 @@ import {
 import { ExceptionHandler } from './common/response/exception.handler';
 import { ValidationError } from 'class-validator';
 import { Exception, ExceptionCode } from './common/response/exception';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -39,8 +40,12 @@ async function bootstrap() {
       },
     }),
   );
+  app.use(cookieParser());
   app.useGlobalFilters(new ExceptionHandler());
-  app.enableCors();
+  app.enableCors({
+    credentials: true,
+    origin: '*',
+  });
   process.on('SIGINT', async () => {
     isDisableKeepAlive = true;
     await app.close();
