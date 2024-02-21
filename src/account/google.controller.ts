@@ -1,7 +1,6 @@
 import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { AccountService } from './account.service';
 import { AuthGuard } from '@nestjs/passport';
-import { JwtService } from '@nestjs/jwt';
 
 @Controller('google')
 export class GoogleController {
@@ -22,7 +21,7 @@ export class GoogleController {
       secret: true,
       expires: new Date(Date.now() + 14 * 24 * 3600000),
     });
-    response.redirect('/');
+    response.redirect('https://kyonggiti.me');
   }
 
   @Get('access')
