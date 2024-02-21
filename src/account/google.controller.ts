@@ -37,7 +37,6 @@ export class GoogleController {
       secret: true,
       expires: new Date(Date.now() + 14 * 24 * 3600000),
       sameSite: 'None',
-      domain: '',
     });
   }
 

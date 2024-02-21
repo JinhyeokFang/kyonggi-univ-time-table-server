@@ -44,7 +44,10 @@ async function bootstrap() {
   app.useGlobalFilters(new ExceptionHandler());
   app.enableCors({
     credentials: true,
-    origin: 'https://kyonggiti.me',
+    origin: [
+      'https://kyonggiti.me',
+      'http://localhost:3000',
+    ],
     methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE'],
   });
   process.on('SIGINT', async () => {
