@@ -1,4 +1,11 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpStatus,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { AccountService } from './account.service';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -14,15 +21,24 @@ export class GoogleController {
 
   @Get('redirect')
   @UseGuards(AuthGuard('google'))
+  async generateRefreshToken(@Req() req, @Res({ passthrough: true }) response) {
+    const tempToken = await this.accountService.googleLogin(req);
+    response.redirect(
+      'https://kyonggiti.me?tempToken=' + tempToken.randomString,
+    );
+  }
+
+  @Get('refresh')
   async getRefreshToken(@Req() req, @Res({ passthrough: true }) response) {
-    const refreshToken = await this.accountService.googleLogin(req);
+    const tempToken = req.headers['authorization'].split(' ')[1];
+    const refreshToken = await this.accountService.getRefreshToken(tempToken);
     response.cookie('refresh-token', refreshToken, {
       httpOnly: true,
       secret: true,
       expires: new Date(Date.now() + 14 * 24 * 3600000),
       sameSite: 'None',
+      domain: '',
     });
-    response.redirect('https://kyonggiti.me');
   }
 
   @Get('access')
