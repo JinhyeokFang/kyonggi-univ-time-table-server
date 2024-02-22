@@ -1,6 +1,7 @@
 import {
   Controller,
   Get,
+  HttpException,
   HttpStatus,
   Req,
   Res,
@@ -42,6 +43,9 @@ export class GoogleController {
   @Get('access')
   async getAccessToken(@Req() req) {
     const refreshToken = req.cookies['refresh-token'];
+    if (!refreshToken) {
+      throw new HttpException({}, HttpStatus.UNAUTHORIZED);
+    }
     const accessToken = await this.accountService.getAccessToken(refreshToken);
     return {
       accessToken,
