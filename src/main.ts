@@ -48,7 +48,7 @@ async function bootstrap() {
       'https://kyonggiti.me',
       'http://localhost:3000',
     ],
-    methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE'],
+    methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE', 'PATCH'],
   });
   process.on('SIGINT', async () => {
     isDisableKeepAlive = true;
