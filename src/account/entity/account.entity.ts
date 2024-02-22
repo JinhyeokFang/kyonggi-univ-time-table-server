@@ -6,11 +6,11 @@ export class Account {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column('longtext')
   @IsString()
   savedTimetable!: string;
 
-  @Column()
+  @Column('longtext')
   @IsString()
   savedCalculatorTimetable!: string;
 
