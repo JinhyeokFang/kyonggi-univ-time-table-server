@@ -55,7 +55,7 @@ export class GoogleController {
 
   @Get('logout')
   @Redirect('https://kyonggiti.me')
-  async logout(@Req() req) {
-    req.clearCookie('refresh-token');
+  async logout(@Res() res) {
+    res.clearCookie('refresh-token');
   }
 }
