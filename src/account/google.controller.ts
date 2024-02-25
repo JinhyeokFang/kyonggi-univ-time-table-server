@@ -3,6 +3,7 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Redirect,
   Req,
   Res,
   UseGuards,
@@ -50,5 +51,11 @@ export class GoogleController {
     return {
       accessToken,
     };
+  }
+
+  @Get('logout')
+  @Redirect('https://kyonggiti.me')
+  async logout(@Req() req) {
+    req.clearCookie('refresh-token');
   }
 }
