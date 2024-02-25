@@ -8,6 +8,7 @@ import { join } from 'path';
 import { LectureModule } from './lecture/lecture.module';
 import { HelpModule } from './help/help.module';
 import { AccountModule } from './account/account.module';
+import { EvaluationModule } from './evaluation/evaluation.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { AccountModule } from './account/account.module';
     LectureModule,
     HelpModule,
     AccountModule,
+    EvaluationModule,
   ],
   controllers: [],
   providers: [],
