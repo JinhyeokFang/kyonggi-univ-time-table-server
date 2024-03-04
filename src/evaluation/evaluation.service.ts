@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { Evaluation } from './entity/evaluation.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as EvaluationServiceDTO from './dtos/evaludation.service.dto';
@@ -42,8 +42,8 @@ export class EvaluationService {
   async getEvaluations(nameOfLecture: string, nameOfProfessor: string) {
     const evaluations = await this.evaluationRepository.find({
       where: {
-        nameOfLecture,
-        nameOfProfessor,
+        nameOfLecture: Like(`%${nameOfLecture}%`),
+        nameOfProfessor: Like(`%${nameOfProfessor}%`),
       },
       take: 100,
     });
