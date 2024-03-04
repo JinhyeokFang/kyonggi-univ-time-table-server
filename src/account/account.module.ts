@@ -24,5 +24,6 @@ import { TempToken } from './entity/temp-token.entity';
   ],
   controllers: [AccountController, GoogleController],
   providers: [AccountService, GoogleStrategy],
+  exports: [AccountService],
 })
 export class AccountModule {}
