@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Like, Repository } from 'typeorm';
 import { Evaluation } from './entity/evaluation.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as EvaluationServiceDTO from './dtos/evaludation.service.dto';
+import * as EvaluationServiceDTO from './dtos/evaluation.service.dto';
 
 @Injectable()
 export class EvaluationService {
@@ -11,7 +11,7 @@ export class EvaluationService {
     private readonly evaluationRepository: Repository<Evaluation>,
   ) {}
 
-  async createEvaluation(dto: EvaluationServiceDTO.createEvaludationDTO) {
+  async createEvaluation(dto: EvaluationServiceDTO.createEvaluationDTO) {
     const isEvaluationExists = await this.evaluationRepository.exist({
       where: {
         nameOfLecture: dto.nameOfLecture,
@@ -33,8 +33,6 @@ export class EvaluationService {
       nameOfLecture: dto.nameOfLecture,
       nameOfProfessor: dto.nameOfProfessor,
       totalRate: dto.totalRate,
-      assignmentRate: dto.assignmentRate,
-      markRate: dto.markRate,
     });
     await this.evaluationRepository.save(evaluation);
   }

@@ -1,8 +1,6 @@
-export class createEvaludationDTO {
+export class createEvaluationDTO {
   authorEmail: string;
   nameOfLecture: string;
   nameOfProfessor: string;
   totalRate: number;
-  assignmentRate: number;
-  markRate: number;
 }

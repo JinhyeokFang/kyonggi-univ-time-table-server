@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
 import { EvaluationService } from './evaluation.service';
-import * as EvaluationControllerDTO from './dtos/evaludation.controller.dto';
+import * as EvaluationControllerDTO from './dtos/evaluation.controller.dto';
 import { AccountService } from 'src/account/account.service';
 
 @Controller('evaluation')
@@ -12,7 +12,7 @@ export class EvaluationController {
 
   @Post()
   async createEvaluation(
-    @Body() body: EvaluationControllerDTO.createEvaludationResponseDTO,
+    @Body() body: EvaluationControllerDTO.createEvaluationResponseDTO,
     @Req() request: Request,
   ) {
     const accountEntity = await this.accountService.getAccount(
@@ -22,8 +22,6 @@ export class EvaluationController {
       nameOfLecture: body.nameOfLecture,
       nameOfProfessor: body.nameOfProfessor,
       totalRate: body.totalRate,
-      assignmentRate: body.assignmentRate,
-      markRate: body.markRate,
       authorEmail: accountEntity.email,
     });
   }
@@ -38,13 +36,11 @@ export class EvaluationController {
       professor,
     );
 
-    const data: EvaluationControllerDTO.getEvaludationResponseDTO[] =
+    const data: EvaluationControllerDTO.getEvaluationResponseDTO[] =
       evaluations.map((entity) => ({
         nameOfLecture: entity.nameOfLecture,
         nameOfProfessor: entity.nameOfProfessor,
         totalRate: entity.totalRate,
-        assignmentRate: entity.assignmentRate,
-        markRate: entity.markRate,
       }));
 
     return {

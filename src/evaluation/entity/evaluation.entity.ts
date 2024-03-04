@@ -21,27 +21,17 @@ export class Evaluation {
   @Column()
   totalRate: number;
 
-  @Column()
-  assignmentRate: number;
-
-  @Column()
-  markRate: number;
-
   static of(dto: {
     authorEmail: string;
     nameOfLecture: string;
     nameOfProfessor;
     totalRate: number;
-    assignmentRate: number;
-    markRate: number;
   }): Evaluation {
     const evaluation = new Evaluation();
     evaluation.authorEmail = dto.authorEmail;
     evaluation.nameOfLecture = dto.nameOfLecture;
     evaluation.nameOfProfessor = dto.nameOfProfessor;
     evaluation.totalRate = dto.totalRate;
-    evaluation.assignmentRate = dto.assignmentRate;
-    evaluation.markRate = dto.markRate;
     return evaluation;
   }
 }
