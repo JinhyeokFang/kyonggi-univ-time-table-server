@@ -40,8 +40,10 @@ export class EvaluationService {
   async getEvaluations(nameOfLecture: string, nameOfProfessor: string) {
     const evaluations = await this.evaluationRepository.find({
       where: {
-        nameOfLecture: Like(`%${nameOfLecture}%`),
-        nameOfProfessor: Like(`%${nameOfProfessor}%`),
+        nameOfLecture: nameOfLecture ? Like(`%${nameOfLecture}%`) : undefined,
+        nameOfProfessor: nameOfProfessor
+          ? Like(`%${nameOfProfessor}%`)
+          : undefined,
       },
       take: 100,
     });
