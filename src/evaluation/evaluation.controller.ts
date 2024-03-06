@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Req } from '@nestjs/common';
 import { EvaluationService } from './evaluation.service';
 import * as EvaluationControllerDTO from './dtos/evaluation.controller.dto';
 import { AccountService } from 'src/account/account.service';
@@ -26,10 +26,10 @@ export class EvaluationController {
     });
   }
 
-  @Get('/:lecture/:professor')
+  @Get()
   async getEvaluations(
-    @Param('lecture') lecture: string,
-    @Param('professor') professor: string,
+    @Query('lecture') lecture: string,
+    @Query('professor') professor: string,
   ) {
     const evaluations = await this.evaluationService.getEvaluations(
       lecture,
