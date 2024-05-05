@@ -32,6 +32,7 @@ export class EvaluationService {
       authorEmail: dto.authorEmail,
       nameOfLecture: dto.nameOfLecture,
       nameOfProfessor: dto.nameOfProfessor,
+      description: dto.description,
       totalRate: dto.totalRate,
     });
     await this.evaluationRepository.save(evaluation);

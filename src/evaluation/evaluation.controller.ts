@@ -21,6 +21,7 @@ export class EvaluationController {
     await this.evaluationService.createEvaluation({
       nameOfLecture: body.nameOfLecture,
       nameOfProfessor: body.nameOfProfessor,
+      description: body.description,
       totalRate: body.totalRate,
       authorEmail: accountEntity.email,
     });
@@ -40,6 +41,7 @@ export class EvaluationController {
       evaluations.map((entity) => ({
         nameOfLecture: entity.nameOfLecture,
         nameOfProfessor: entity.nameOfProfessor,
+        description: entity.description,
         totalRate: entity.totalRate,
       }));
 
