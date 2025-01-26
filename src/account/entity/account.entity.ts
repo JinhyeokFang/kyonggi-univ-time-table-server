@@ -18,6 +18,10 @@ export class Account {
   @IsString()
   email: string;
 
+  @Column()
+  @IsString()
+  studentId: string;
+
   static of(email: string): Account {
     const account = new Account();
     account.savedTimetable = '';
