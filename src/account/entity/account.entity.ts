@@ -18,9 +18,9 @@ export class Account {
   @IsString()
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   @IsString()
-  studentId: string;
+  studentId!: string;
 
   static of(email: string): Account {
     const account = new Account();
