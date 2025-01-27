@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Req } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, Req } from '@nestjs/common';
 import { AccountService } from './account.service';
 
 @Controller('account')
@@ -38,6 +38,18 @@ export class AccountController {
     await this.accountService.patchCalculatorTimetable(
       request.headers['authorization'].split(' ')[1],
       body.timetable,
+    );
+  }
+
+  @Patch('/student-id')
+  async updateStudentId(
+    @Req() request: Request,
+    @Body() body: { studentId: string; password: string },
+  ) {
+    return await this.accountService.updateStudentId(
+      request.headers['authorization'].split(' ')[1],
+      body.studentId,
+      body.password,
     );
   }
 }
