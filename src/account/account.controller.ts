@@ -1,55 +1,62 @@
-import { Body, Controller, Get, Patch, Post, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { AccountService } from './account.service';
+import { Account } from './entity/account.entity';
+import { TokenGuard } from './guard/token.guard';
+import { CurrentUser } from './decorator/user.decorator';
 
 @Controller('account')
+@UseGuards(TokenGuard)
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
   @Get()
-  async getAccount(@Req() request: Request) {
-    const accountEntity = await this.accountService.getAccount(
-      request.headers['authorization'].split(' ')[1],
-    );
-    return accountEntity;
+  async getAccount(@CurrentUser() user: Account) {
+    return user;
   }
 
   @Patch('/timetable')
   async patchTimetable(
-    @Req() request: Request,
+    @CurrentUser() user: Account,
     @Body()
     body: {
       timetable: string;
     },
   ) {
-    await this.accountService.patchTimetable(
-      request.headers['authorization'].split(' ')[1],
-      body.timetable,
-    );
+    return await this.accountService.patchTimetable(user.email, body.timetable);
   }
 
   @Patch('/calculator')
   async patchCalculator(
-    @Req() request: Request,
+    @CurrentUser() user: Account,
     @Body()
     body: {
       timetable: string;
     },
   ) {
-    await this.accountService.patchCalculatorTimetable(
-      request.headers['authorization'].split(' ')[1],
+    return await this.accountService.patchCalculatorTimetable(
+      user.email,
       body.timetable,
     );
   }
 
   @Patch('/student-id')
   async updateStudentId(
-    @Req() request: Request,
+    @CurrentUser() user: Account,
     @Body() body: { studentId: string; password: string },
   ) {
     return await this.accountService.updateStudentId(
-      request.headers['authorization'].split(' ')[1],
+      user.email,
       body.studentId,
       body.password,
     );
+  }
+
+  @Delete('/logout')
+  async logout(@Req() request: Request) {
+    const accessToken = request.headers['authorization']?.split(' ')[1];
+    if (!accessToken) {
+      throw new HttpException({}, HttpStatus.UNAUTHORIZED);
+    }
+    return await this.accountService.logout(accessToken);
   }
 }

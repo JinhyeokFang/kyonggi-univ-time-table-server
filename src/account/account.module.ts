@@ -17,7 +17,7 @@ import { TempToken } from './entity/temp-token.entity';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         global: true,
-        secret: configService.get<string>('JWT_SECRET'),
+        secret: configService.getOrThrow<string>('JWT_SECRET'),
       }),
       inject: [ConfigService],
     }),

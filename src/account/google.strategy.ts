@@ -15,8 +15,8 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     private readonly accountRepository: Repository<Account>,
   ) {
     super({
-      clientID: configService.get('GOOGLE_ID'),
-      clientSecret: configService.get('GOOGLE_SECRET'),
+      clientID: configService.getOrThrow('GOOGLE_ID'),
+      clientSecret: configService.getOrThrow('GOOGLE_SECRET'),
       callbackURL: 'https://api.kyonggiti.me/google/redirect',
       scope: ['email', 'profile'],
     });
@@ -41,7 +41,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
         {
           email,
         },
-        accessToken,
+        accessToken as unknown as object,
       );
     } else {
       const newUserEntity = Account.of(email);
@@ -51,7 +51,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
         {
           email,
         },
-        accessToken,
+        accessToken as unknown as object,
       );
     }
   }
