@@ -2,13 +2,12 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Account } from './entity/account.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { TempToken } from './entity/temp-token.entity';
 import { randomUUID } from 'crypto';
 import axios from 'axios';
 import { Inject } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Cache } from 'cache-manager';
 import { Cacheable } from 'cacheable';
 
 @Injectable()
@@ -23,6 +22,7 @@ export class AccountService {
     @InjectRepository(TempToken)
     private readonly tempTokenRepository: Repository<TempToken>,
     @Inject(CACHE_MANAGER) private cacheManager: Cacheable,
+    private dataSource: DataSource,
   ) {}
 
  async googleLogin(req) {
@@ -46,21 +46,38 @@ export class AccountService {
  }
 
  async getRefreshToken(tempTokenString: string) {
-   const tempToken = await this.tempTokenRepository.findOne({
-     where: {
-       randomString: tempTokenString,
-     },
-   });
+  const queryRunner = this.dataSource.createQueryRunner();
+  await queryRunner.connect();
+  await queryRunner.startTransaction();
+  
+  try {
+      const tempToken = await queryRunner.manager
+        .createQueryBuilder(TempToken, 'tempToken')
+        .setLock('pessimistic_write')
+        .where('tempToken.randomString = :randomString', { randomString: tempTokenString })
+        .getOne();
 
-   if (
-     tempToken != null &&
-     tempToken.created.getTime() + 3600000 > new Date().getTime()
-   ) {
-     await this.tempTokenRepository.remove([tempToken]);
-     return tempToken.refreshToken;
-   }
-   return '';
- }
+      if (
+        tempToken != null &&
+        tempToken.created.getTime() + 3600000 > new Date().getTime()
+      ) {
+        await queryRunner.manager.remove(TempToken, tempToken);
+        await queryRunner.commitTransaction();
+        return tempToken.refreshToken;
+      }
+
+      await queryRunner.commitTransaction();
+      return '';
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      throw new HttpException(
+        '토큰 처리 중 오류가 발생했습니다',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    } finally {
+      await queryRunner.release();
+    }
+  }
 
  async getAccessToken(refreshToken: string) {
    if (refreshToken == '') {
