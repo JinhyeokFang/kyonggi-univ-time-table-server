@@ -7,12 +7,11 @@ import { GoogleStrategy } from './google.strategy';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Account } from './entity/account.entity';
 import { JwtModule } from '@nestjs/jwt';
-import { TempToken } from './entity/temp-token.entity';
 
 @Module({
   imports: [
     ConfigModule,
-    TypeOrmModule.forFeature([Account, TempToken]),
+    TypeOrmModule.forFeature([Account]),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
