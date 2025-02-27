@@ -4,7 +4,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 export const typeORMConfig = (
   configService: ConfigService,
 ): TypeOrmModuleOptions => ({
-  type: 'postgres',
+  type: 'mysql',
   host: configService.getOrThrow<string>('DB_HOST'),
   port: configService.getOrThrow<number>('DB_PORT'),
   username: configService.getOrThrow<string>('DB_USER'),
@@ -13,5 +13,4 @@ export const typeORMConfig = (
   entities: [__dirname + '/../../**/*.entity.{js,ts}'],
   synchronize: true,
   logging: true,
-  ssl: true,
 });
